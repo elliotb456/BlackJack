@@ -94,7 +94,20 @@ class BlackjackGame(QWidget):
 
     # Creates and shuffles a full deck of cards 
     def init_deck(self):
-        pass
+        suits = ['♠', '♥', '♦', '♣'] # 4 suits in a deck of cards: Spades, Hearts, Diamonds, Clubs 
+
+        # Cards 2-10 retain their numeric value
+        # Face cards (J, Q, K) are assigned a value of 10.
+        # The Ace (A) is given an initial value of 11, but its value will be adjusted later if needed
+        faces = {'A': 11, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10}
+        
+        # Use a list comprehension to generate all 52 cards, combining each suit with all face values
+        # Each card is an instance of the Card class, which stores its face, value, and suit
+        deck = [Card(face, value, suit) for suit in suits for face, value in faces.items()]
+
+        # The Deck is randomly shuffled and then returned
+        random.shuffle(deck)
+        return deck
 
     # Resets the game face for a new round 
     def restart(self):
