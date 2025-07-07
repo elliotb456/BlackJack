@@ -1,4 +1,5 @@
 # Importing Required Modules 
+
 import sys # For handling system operations 
 import random # For shuffling and dealing cards 
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout
@@ -6,16 +7,21 @@ from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt
 
 
+
 # This Project consists of two main classes | Card & Game 
+
 
 # Card class | Handles the cards > face, value, suit
 class Card:
 
-    # Represents a single playing card | Storing its Face, Value, and Suit
+    # Represents a single playing card | Storing its Face, Value  and Suit
     def __init__(self, face, value, suit):
         self.face = face
         self.value = value 
         self.suit = suit 
+
+
+
 
 
 # Game class | Handles the game logic and GUI
@@ -26,7 +32,9 @@ class BlackjackGame(QWidget):
         super().__init__()
         self.initUI()
 
-    # Sets up the graphical innterfactes (buttons, labels, layouts)
+
+
+    # This method provides a clean, structured, and interactive GUI for the Blackjack game.
     def initUI(self):
         self.setWindowTitle('Blackjack - PyQt5 GUI') # Sets the main window title
         self.setGeometry(200, 200, 600, 400) # Sets the window size to 600x400 pixels
@@ -92,7 +100,8 @@ class BlackjackGame(QWidget):
         self.restart()
 
 
-    # Creates and shuffles a full deck of cards 
+
+    # This method ensures that every new game begins with a randomly shuffled deck of 52 cards
     def init_deck(self):
         suits = ['♠', '♥', '♦', '♣'] # 4 suits in a deck of cards: Spades, Hearts, Diamonds, Clubs 
 
@@ -109,33 +118,91 @@ class BlackjackGame(QWidget):
         random.shuffle(deck)
         return deck
 
-    # Resets the game face for a new round 
-    def restart(self):
-        pass
 
-    # Draws a card from the deck
+
+    # This method ensures that every time a new round starts, the game resets completely, allowing for a new playthrough
+    def restart(self):
+        self.deck = self.init_deck() # Calls init_deck() to create and shuffle a fresh deck of cards 
+
+        # Resets the players and dealers hands to be empty 
+        self.player_cards = []
+        self.dealer_cards = []
+
+        # Resets the players and dealers score to zero
+        self.player_score = 0 
+        self.dealer_score = 0
+
+        # Ensures the game is active by setting game_over to false
+        self.game_over = False 
+
+        # Resets the UI to remove te previous cards 
+        self.clear_layout(self.dealer_box)
+        self.clear_layout(self.player_box)
+
+        # Deal initial cards
+        # Each the player and dealer both receive two starting cards using the deal_card method 
+        for _ in range(2):
+            self.player_cards.append(self.deal_card())
+            self.dealer_cards.append(self.deal_card())
+
+        # Calles update_display() ro reflect the new hands on the screen 
+        self.update_display()
+
+        # Re-enables the 'hit' and 'stand' buttons so the player can interact with the game
+        self.hit_btn.setDisabled(False)
+        self.stand_btn.setDisabled(False)
+
+        # Updates the result label to display 'Game in Progress' 
+        self.result_label.setText('Game in Progress')
+
+
+
+    # The deal_card() method handles drawing a card from the deck
+    # Retrieves (pop()) the top card from the deck
+    # Since the deck is shuffled at the start (init_deck()), this ensures randomness
+    # The returned Card object contains the face, value, and suit
     def deal_card(self):
-        pass
+        return self.deck.pop()
+
+
 
     # Computes the score for both the player and dealer
     def calculate_score(self, cards):
         pass
 
+
+
     # Updates the UI with the latest game info
     def update_display(self):
         pass
 
-    # Clears old UI elements before updating the display 
+
+
+    # The clear_layout() method ensures the UI updates properly by removing previous elements 
+    # Loops through all widgets inside a given layout
+    # Uses .takeAt(0) to remove items one by one
+    # If the item is a widget, it is deleted (deleteLater()) to clear the UI properly
+    # This is important for refreshing the dealer's and player's hands before updating the display
     def clear_layout(self, layout): 
-        pass
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+
+
 
     # Handles the players 'Hit' action
     def hit(self):
         pass
 
+
+
     # Handles the players 'Stand' action, and lets the dealer play
     def stand(self):
         pass
+
+
 
 # Runs the PyQt5 application and intializes the game window, starting the event loop 
 if __name__ == '__main__':
