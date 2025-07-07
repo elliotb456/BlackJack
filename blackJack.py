@@ -172,9 +172,62 @@ class BlackjackGame(QWidget):
 
 
 
-    # Updates the UI with the latest game info
+    # The update_display() method updates the UI by rendering the current state of the game, displaying the cards, scores, and handling game-over scenarios
+    # Ensures that the game UI updates dynamically
+    # Controls how cards are displayed and hidden
+    # Implements Blackjack rules like hiding the dealer’s first card
+    # Handles busting conditions efficiently
     def update_display(self):
-        pass
+
+        # Calls clear_layoutto remove previously displayed cards
+        self.clear_layout(self.dealer_box)
+        self.clear_layout(self.player_box)
+
+        # Dealers cards
+        for i, card in enumerate(self.dealer_cards): 
+            colour = 'red' if card.suit in ['♥', '♦'] else 'black' # Hearts and diamons are red, other suites are black
+            if i == 0 and not self.game_over:
+                colour = 'blue' # If the game is not over hides the dealers first card with the colour blue to differentiate 
+                label_text = '🂠'
+            else:
+                label_text = f'{card.face}{card.suit}' # If the game is over displayes all of the dealers cards
+
+            # Font, style, and alignment for the dealers label
+            label = QLabel(label_text)
+            label.setFont(QFont('Arial', 16, QFont.Bold))
+            label.setAlignment(Qt.AlignCenter)
+            label.setStyleSheet(f'border: 2px solid black; padding: 10px; background: white; colour: {colour}; min-width: 60px; min-height: 100px;')
+            self.dealer_box.addWidget(label)
+
+        # Players cards | Always visible
+        for card in self.player_cards:
+            colour = 'red' if card.suit in ['♥', '♦'] else 'black' # Hearts and diamons are red, other suites are black
+
+            # Font, style, and alignment for the players cards 
+            label = QLabel(f'{card.face}{card.suit}')
+            label.setFont(QFont('Arial', 16, QFont.Bold))
+            label.setAlignment(Qt.AlignCenter)
+            label.setStyleSheet(f'border: 2px solid black; padding: 10px; background: white; colour: {colour}; min-width: 60px; min-height: 100px;')
+            self.player_box.addWidget(label)
+
+        # Calls calculate_score() to update the players and dealers score
+        self.player_score = self.calculate_score(self.player_cards)
+        self.dealer_score = self.calculate_score(self.dealer_cards)
+
+        # Players score always displayed | Dealers score hiddne (?) until the game ends
+        self.player_score_label.setText(f'Player Score: {self.player_score}')
+        self.dealer_score_label.setText(f'Dealer Score: {self.dealer_score if self.game_over else '?'}')
+
+        # If the players score exceeds 21, they go bust
+        if self.player_score > 21:
+            self.result_label.setText('Player Busts! Dealer Wins!') # Updates the results label
+
+            # Disables the playing buttons
+            self.hit_btn.setDisabled(True)
+            self.stand_btn.setDisabled(True)
+
+            # Marks game_over as true
+            self.game_over = True
 
 
 
