@@ -166,9 +166,20 @@ class BlackjackGame(QWidget):
 
 
 
-    # Computes the score for both the player and dealer
+    # Computes the score for both the player and dealer while enforcing Blackjack rules and determining winners 
+    # Uses list comprehension to sum up the values of all cards in the given hand
+    # Since face cards (J, Q, K) have a value of 10, and Aces (A) initially have 11, they are already accounted for in the Card class
     def calculate_score(self, cards):
-        pass
+        score = sum(card.value for card in cards)
+        aces = sum(1 for card in cards if card.face == 'A')
+
+        # If the total score exceeds 21, we check for Aces ('A')
+        # Since Aces can be either 11 or 1, we subtract 10 from the score for each Ace until the score is 21 or lower
+        # This ensures the best possible score without busting
+        while score > 21 and aces: 
+            score -= 10
+            aces -= 1
+        return score
 
 
 
