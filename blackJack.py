@@ -256,15 +256,58 @@ class BlackjackGame(QWidget):
 
 
 
+    # The below two methods hit() & stand() complete the game logic, allowing smooth and interactive gameplay
+
     # Handles the players 'Hit' action
     def hit(self):
-        pass
+        if not self.game_over: # Checks first to mamke sure the game is still running
+            self.player_cards.append(self.deal_card()) # Deals a new card to the player
+            self.player_score = self.calculate_score(self.player_cards) # Recalculates the score based on the new card
+            self.update_display() # Calls update_display() to refresh the UI based on the new score
+
+            # If the players score exceeds 21, the game declares a bust
+            # Updates the labels and disables the buttons, marks the game as 'over'
+            if self.player_score > 21:
+                self.result_label.setText('Player Busts! Dealer Wins!')
+                self.hit_btn.setDisabled(True)
+                self.stand_btn.setDisabled(True)
+                self.game_over = True
+                self.update_display()
 
 
 
     # Handles the players 'Stand' action, and lets the dealer play
     def stand(self):
-        pass
+        # Disables the 'Hit' and 'Stand' buttons to prevent further player interaction
+        self.hit_btn.setDisabled(True)
+        self.stand_btn.setDisabled(True)
+
+        # While loop ensures the dealer keeps drawing cards until their score reaches at least 17 | As per Blackjack rules
+        while self.dealer_score < 17:
+            self.dealer_cards.append(self.deal_card()) # Draws card
+            self.dealer_score = self.calculate_score(self.dealer_cards) # Updates score based on drawn card above
+
+        # Once the dealer stops drawing cards, the game is marked as 'over' and the display is updated
+        self.game_over = True
+        self.update_display()
+
+        # Determines the final game result
+        # If dealer busts (>21) -> Player wins
+        if self.dealer_score > 21:
+            self.result_label.setText('Dealer Busts! Player Wins!')
+        # If dealer has a higher score than the player -> Dealer wins
+        elif self.dealer_score > self.player_score:
+            self.result_label.setText('Dealer Wins!')
+        # If dealer has a lower score than the player -> Player wins
+        elif self.dealer_score < self.player_score:
+            self.result_label.setText('Player Wins!')
+        # If scores are equal -> it's a tie
+        else:
+            self.result_label.setText("It's a Tie!")
+
+        # Ensures that the UI updates smoothly
+        QApplication.processEvents()
+
 
 
 
