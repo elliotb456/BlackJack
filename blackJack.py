@@ -196,9 +196,9 @@ class BlackjackGame(QWidget):
 
         # Dealers cards
         for i, card in enumerate(self.dealer_cards): 
-            colour = 'red' if card.suit in ['♥', '♦'] else 'black' # Hearts and diamons are red, other suites are black
+            color = 'red' if card.suit in ['♥', '♦'] else 'black' # Hearts and diamons are red, other suites are black
             if i == 0 and not self.game_over:
-                colour = 'blue' # If the game is not over hides the dealers first card with the colour blue to differentiate 
+                color = 'blue' # If the game is not over hides the dealers first card with the colour blue to differentiate 
                 label_text = '🂠'
             else:
                 label_text = f'{card.face}{card.suit}' # If the game is over displayes all of the dealers cards
@@ -207,18 +207,18 @@ class BlackjackGame(QWidget):
             label = QLabel(label_text)
             label.setFont(QFont('Arial', 16, QFont.Bold))
             label.setAlignment(Qt.AlignCenter)
-            label.setStyleSheet(f'border: 2px solid black; padding: 10px; background: white; colour: {colour}; min-width: 60px; min-height: 100px;')
+            label.setStyleSheet(f'border: 2px solid black; padding: 10px; background: white; color: {color}; min-width: 60px; min-height: 100px;')
             self.dealer_box.addWidget(label)
 
         # Players cards | Always visible
         for card in self.player_cards:
-            colour = 'red' if card.suit in ['♥', '♦'] else 'black' # Hearts and diamons are red, other suites are black
+            color = 'red' if card.suit in ['♥', '♦'] else 'black' # Hearts and diamons are red, other suites are black
 
             # Font, style, and alignment for the players cards 
             label = QLabel(f'{card.face}{card.suit}')
             label.setFont(QFont('Arial', 16, QFont.Bold))
             label.setAlignment(Qt.AlignCenter)
-            label.setStyleSheet(f'border: 2px solid black; padding: 10px; background: white; colour: {colour}; min-width: 60px; min-height: 100px;')
+            label.setStyleSheet(f'border: 2px solid black; padding: 10px; background: white; color: {color}; min-width: 60px; min-height: 100px;')
             self.player_box.addWidget(label)
 
         # Calls calculate_score() to update the players and dealers score
@@ -307,6 +307,7 @@ class BlackjackGame(QWidget):
 
         # Ensures that the UI updates smoothly
         QApplication.processEvents()
+
 
 
 
