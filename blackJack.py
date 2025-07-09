@@ -50,7 +50,7 @@ class BlackjackGame(QWidget):
         # Labels for the cards
         # Dealer and player labels (QLabel) display "Dealer's Cards:" and "Player's Cards:"
         # Result Label (QLabel) displays the game status (e.g., "Game in Progress")
-        # Score labels show the dealer’s and player’s current score
+        # Score labels show the dealer's and player's current score
         self.dealer_label = QLabel("Dealer's Cards:")
         self.player_label = QLabel("Player's Cards:")
         self.result_label = QLabel('Game in Progress')
@@ -186,7 +186,7 @@ class BlackjackGame(QWidget):
     # The update_display() method updates the UI by rendering the current state of the game, displaying the cards, scores, and handling game-over scenarios
     # Ensures that the game UI updates dynamically
     # Controls how cards are displayed and hidden
-    # Implements Blackjack rules like hiding the dealer’s first card
+    # Implements Blackjack rules like hiding the dealer's first card
     # Handles busting conditions efficiently
     def update_display(self):
 
@@ -198,7 +198,7 @@ class BlackjackGame(QWidget):
         for i, card in enumerate(self.dealer_cards): 
             color = 'red' if card.suit in ['♥', '♦'] else 'black' # Hearts and diamons are red, other suites are black
             if i == 0 and not self.game_over:
-                color = 'blue' # If the game is not over hides the dealers first card with the colour blue to differentiate 
+                color = 'blue' # If the game is not over hides the dealers first card with the colour blue to differentiate 
                 label_text = '🂠'
             else:
                 label_text = f'{card.face}{card.suit}' # If the game is over displayes all of the dealers cards
@@ -227,7 +227,7 @@ class BlackjackGame(QWidget):
 
         # Players score always displayed | Dealers score hiddne (?) until the game ends
         self.player_score_label.setText(f'Player Score: {self.player_score}')
-        self.dealer_score_label.setText(f'Dealer Score: {self.dealer_score if self.game_over else '?'}')
+        self.dealer_score_label.setText(f"Dealer Score: {self.dealer_score if self.game_over else '?'}")
 
         # If the players score exceeds 21, they go bust
         if self.player_score > 21:
@@ -266,7 +266,7 @@ class BlackjackGame(QWidget):
             self.update_display() # Calls update_display() to refresh the UI based on the new score
 
             # If the players score exceeds 21, the game declares a bust
-            # Updates the labels and disables the buttons, marks the game as 'over'
+            # Updates the labels and disables the buttons, marks the game as 'over'
             if self.player_score > 21:
                 self.result_label.setText('Player Busts! Dealer Wins!')
                 self.hit_btn.setDisabled(True)
@@ -287,7 +287,7 @@ class BlackjackGame(QWidget):
             self.dealer_cards.append(self.deal_card()) # Draws card
             self.dealer_score = self.calculate_score(self.dealer_cards) # Updates score based on drawn card above
 
-        # Once the dealer stops drawing cards, the game is marked as 'over' and the display is updated
+        # Once the dealer stops drawing cards, the game is marked as 'over' and the display is updated
         self.game_over = True
         self.update_display()
 
