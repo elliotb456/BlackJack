@@ -269,14 +269,16 @@ class BlackjackGame(QWidget):
             self.update_display() # Calls update_display() to refresh the UI based on the new score
 
             # If the players score exceeds 21, the game declares a bust
-            # Updates the labels and disables the buttons, marks the game as 'over'
             if self.player_score > 21:
+                # Updates the labels and disables the buttons, marks the game as 'over'
                 self.result_label.setText('Player Busts! Dealer Wins!')
                 self.hit_btn.setDisabled(True)
                 self.stand_btn.setDisabled(True)
                 self.game_over = True
                 self.update_display()
+            # If the players score equals 21, they have Blackjack and win the round 
             elif self.player_score == 21:
+                # Updates the labels and disables the buttons, marks the game as 'over'
                 self.result_label.setText('Blackjack! Player Wins!')
                 self.hit_btn.setDisabled(True)
                 self.stand_btn.setDisabled(True)
