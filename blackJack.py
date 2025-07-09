@@ -276,6 +276,12 @@ class BlackjackGame(QWidget):
                 self.stand_btn.setDisabled(True)
                 self.game_over = True
                 self.update_display()
+            elif self.player_score == 21:
+                self.result_label.setText('Blackjack! Player Wins!')
+                self.hit_btn.setDisabled(True)
+                self.stand_btn.setDisabled(True)
+                self.game_over = True
+                self.update_display()
 
 
 
