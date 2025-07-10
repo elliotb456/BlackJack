@@ -123,7 +123,7 @@ class BlackjackGame(QWidget):
 
     # This method ensures that every time a new round starts, the game resets completely, allowing for a new playthrough
     def restart(self):
-        playsound('btnClick.mp3', False) # Plays at start of game and when BTN is pressed > Setting to False removes a defaul delay
+        playsound('sounds/btnClick.mp3', False) # Plays at start of game and when BTN is pressed > Setting to False removes a defaul delay
         self.deck = self.init_deck() # Calls init_deck() to create and shuffle a fresh deck of cards 
 
         # Resets the players and dealers hands to be empty 
@@ -263,7 +263,7 @@ class BlackjackGame(QWidget):
     # Handles the players 'Hit' action
     def hit(self):
         if not self.game_over: # Checks first to mamke sure the game is still running
-            playsound('btnClick.mp3', False) # Plays when hit_btn is pressed > Setting to False removes a defaul delay
+            playsound('sounds/btnClick.mp3', False) # Plays when hit_btn is pressed > Setting to False removes a defaul delay
             self.player_cards.append(self.deal_card()) # Deals a new card to the player
             self.player_score = self.calculate_score(self.player_cards) # Recalculates the score based on the new card
             self.update_display() # Calls update_display() to refresh the UI based on the new score
@@ -290,7 +290,7 @@ class BlackjackGame(QWidget):
     # Handles the players 'Stand' action, and lets the dealer play
     def stand(self):
         # Plays when stand_btn is pressed > Setting to False removes a defaul delay
-        playsound('btnClick.mp3', False)
+        playsound('sounds/btnClick.mp3', False)
         # Disables the 'Hit' and 'Stand' buttons to prevent further player interaction
         self.hit_btn.setDisabled(True)
         self.stand_btn.setDisabled(True)
