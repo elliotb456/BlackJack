@@ -322,6 +322,11 @@ class BlackjackGame(QWidget):
         QApplication.processEvents()
 
 
+    # Handles turning the card images into Strings
+    def card_string_to_filename(card_str):
+        pass
+
+
 
 
 
